@@ -4,6 +4,28 @@ import { openingHoursMessages } from './opening-hours.js';
 export const languages = ['en', 'zh-CN', 'zh-TW'];
 // Canonical values remain English in JSON. Only interface labels are translated.
 const strings = {
+  'Theme applied. Preview your slides to see it.': ['主题已应用，预览幻灯片即可查看效果。','主題已套用，預覽投影片即可查看效果。'],
+  "Timeline journal": ["时间手帐", "時間手帳"],
+  "Editorial spread": ["杂志专页", "雜誌專頁"],
+  "Photo story": ["影像故事", "影像故事"],
+  "Postcards": ["旅行明信片", "旅行明信片"],
+  "Scrapbook": ["回忆剪贴簿", "回憶剪貼簿"],
+  "Minimal itinerary": ["简约行程", "簡約行程"],
+  "A day to remember": ["值得珍藏的一天", "值得珍藏的一天"],
+  "Wish you were here": ["想和你一起在这里", "想和你一起在這裡"],
+  "Little memories": ["小小的回忆", "小小的回憶"],
+  "Follow the day in time order, with notes and generous side images.": ["按时间串起一天，搭配笔记和大幅侧图。", "按時間串起一天，搭配筆記和大幅側圖。"],
+  "A lead story with a large photograph, followed by smaller stories.": ["以大图主打重点活动，再排入其他精彩片段。", "以大圖主打重點活動，再排入其他精彩片段。"],
+  "Image-first cards with short captions and a panoramic cover.": ["以图片为主的卡片、简短说明和全景封面。", "以圖片為主的卡片、簡短說明和全景封面。"],
+  "Framed scenes with alternating pictures and messages.": ["带边框的风景，图文交替排列。", "帶邊框的風景，圖文交替排列。"],
+  "Layered paper, tilted photographs, and handwritten-style headings.": ["层叠纸张、微倾照片和手写感标题。", "層疊紙張、微傾照片和手寫感標題。"],
+  "A bold date column and clean, compact activity lists.": ["醒目的日期栏和简洁紧凑的活动列表。", "醒目的日期欄和簡潔緊湊的活動列表。"],
+
+  'Export': ['导出','匯出'], 'More': ['更多','更多'], 'Preview': ['预览','預覽'],
+  'Example trip': ['示例行程','範例行程'], 'Trip tools': ['行程工具','行程工具'], 'Trip days': ['行程日期','行程日期'],
+  'Selected theme': ['已选主题','已選主題'],
+  'Themes change your slides. Preview to see your choice.': ['主题会改变幻灯片的样式。点击预览查看效果。','主題會改變投影片的樣式。點擊預覽查看效果。'],
+
   "Language": ["语言", "語言"],
   "English": ["英语", "英語"],
   "Simplified Chinese": ["简体中文", "簡體中文"],
