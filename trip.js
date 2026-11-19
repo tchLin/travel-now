@@ -31,8 +31,8 @@ export function datesBetween(start, end) {
   if (!Number.isFinite(a) || !Number.isFinite(b) || b < a || (b - a) / 86400000 > 89) return [];
   return Array.from({ length: Math.round((b - a) / 86400000) + 1 }, (_, i) => new Date(a + i * 86400000).toISOString().slice(0, 10));
 }
-export function dateLabel(date, options = { month: 'short', day: 'numeric' }) {
-  return new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'UTC' }).format(new Date(date + 'T12:00:00Z'));
+export function dateLabel(date, options = { month: 'short', day: 'numeric' }, language = 'en') {
+  return new Intl.DateTimeFormat(language === 'en' ? 'en-US' : language, { ...options, timeZone: 'UTC' }).format(new Date(date + 'T12:00:00Z'));
 }
 export function mapsUrl(place, destination = '') {
   return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent([place, destination].filter(Boolean).join(', '));
@@ -51,13 +51,14 @@ function string(value, name, max = 500, required = false) {
 }
 export function validateTrip(input) {
   if (!input || input.schemaVersion !== 1) throw new Error('This file needs Travel Now schemaVersion 1.');
+  if (input.language && !['en','zh-CN','zh-TW'].includes(input.language)) throw new Error('Choose a supported language.');
   if (!dateValid(input.startDate) || !dateValid(input.endDate) || !datesBetween(input.startDate, input.endDate).length) throw new Error('Choose a valid trip date range of 1–90 days.');
   if (!themes.some(t => t.id === input.themeId)) throw new Error('Choose one of the 27 supported styles.');
   if (!Array.isArray(input.activities) || input.activities.length > 500) throw new Error('A trip can contain up to 500 activities.');
   const image = (v) => { if (v && (!safeImage(v) || v.length > 1500000)) throw new Error('Use a supported photo under 1.5 MB.'); return v || ''; };
   const ids = new Set();
   const trip = {
-    schemaVersion: 1, id: string(input.id, 'trip ID', 100, true), title: string(input.title, 'trip title', 120, true),
+    schemaVersion: 1, language: input.language || 'en', id: string(input.id, 'trip ID', 100, true), title: string(input.title, 'trip title', 120, true),
     destination: string(input.destination, 'destination', 120, true), startDate: input.startDate, endDate: input.endDate,
     travelers: string(input.travelers ?? '', 'travelers', 250), tagline: string(input.tagline ?? '', 'trip description', 500),
     timezone: string(input.timezone ?? 'Asia/Tokyo', 'timezone', 80, true), themeId: input.themeId,
@@ -92,13 +93,13 @@ export function slidesFor(trip) {
   return slides;
 }
 export function newTrip() {
-  const date = new Date().toISOString().slice(0,10);
-  return { schemaVersion: 1, id: uid(), title: 'Our next little adventure', destination: 'Japan', startDate: date, endDate: date, travelers: '', tagline: 'Good places. Better company.', timezone: 'Asia/Tokyo', themeId: 'theme-1', coverImage: '', activities: [] };
+  const now = new Date(), date = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  return { schemaVersion: 1, language: 'en', id: uid(), title: 'Our next little adventure', destination: '', startDate: date, endDate: date, travelers: '', tagline: 'Good places. Better company.', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC', themeId: 'theme-24', coverImage: '', activities: [] };
 }
 export function demoTrip() {
   const base = { startTime: '', endTime: '', status: 'Confirmed', privateNotes: '', cost: null, currency: 'JPY', image: '', mapUrl: '' };
   return {
-    schemaVersion: 1, id: 'kyoto-demo', title: 'A little Kyoto escape', destination: 'Japan', startDate: '2027-03-22', endDate: '2027-03-26', travelers: 'Alex, Jamie, Sam & you', tagline: 'Slow mornings, hidden tea houses, and a little getting lost together.', timezone: 'Asia/Tokyo', themeId: 'theme-1', coverImage: 'assets/japan.jpg',
+    schemaVersion: 1, language: 'en', id: 'kyoto-demo', title: 'A little Kyoto escape', destination: 'Japan', startDate: '2027-03-22', endDate: '2027-03-26', travelers: 'Alex, Jamie, Sam & you', tagline: 'Slow mornings, hidden tea houses, and a little getting lost together.', timezone: 'Asia/Tokyo', themeId: 'theme-1', coverImage: 'assets/japan.jpg',
     activities: [
       { ...base, id: 'a1', title: 'A quiet morning in Higashiyama', place: 'Higashiyama, Kyoto', date: '2027-03-22', startTime: '09:00', endTime: '11:00', category: 'Explore', notes: 'Wander the little lanes of Ninenzaka. Take it slow and leave room for a coffee stop.', image: 'assets/japan.jpg' },
       { ...base, id: 'a2', title: 'A taste of Nishiki Market', place: 'Nishiki Market, Kyoto', date: '2027-03-22', startTime: '12:30', category: 'Food & drink', notes: 'Meet at the west entrance. Pick a few things to share and follow whatever smells good.', cost: 2500, image: 'assets/food.jpg' },
