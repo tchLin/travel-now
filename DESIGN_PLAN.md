@@ -90,3 +90,11 @@ No live collaboration, cloud trip storage, real-time Google place/photo lookup, 
 ## Hosting decision
 
 The user selected free, public GitHub Pages hosting instead of OpenAI hosting. The public `tchLin/travel-now` repository holds source on `main` and static output on `gh-pages`. The app uses relative asset paths so it works at `/travel-now/`. Publication runs checks and builds locally, then pushes static output without force-pushing. No OpenAI deployment is used.
+
+## UX and Chinese-language revision
+
+The initial Kyoto default made the product feel destination-specific, and “Look & feel” obscured theme selection. The revised first visit starts with a blank destination, a visual introduction to the three planning stages, and a setup form. Kyoto is an explicitly selected example. Existing saved trips are preserved.
+
+A visible “Choose a theme” control and “Themes & styles” section expose all 27 themes before destination filtering. New trips start a dismissible five-step guide, which can be reopened with “Start here.” The guide points to real controls for trip details, activities, themes, preview, and export. Styled menus replace native select/datalist popups and support keyboard interaction.
+
+English, Simplified Chinese, and Traditional Chinese are available through a persistent language switcher. Translation covers setup, the editor, dialogs, themes, guidance, validation messages, dates, slide labels, and export instructions. User-authored trip content is not translated automatically. JSON includes the selected language; version 1 files without a language field remain supported. A development-only DOM test library exercises these interactions without adding runtime dependencies to the public site.

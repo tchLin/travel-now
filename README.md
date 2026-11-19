@@ -6,7 +6,11 @@ A cozy trip studio for turning family and friend itineraries into portable HTML 
 
 ## Run locally
 
-Requires Node.js 20 or later. No dependencies or API keys are needed.
+Requires Node.js 20 or later. No runtime dependencies or API keys are needed. Install the development-only test dependency before running tests or publishing:
+
+```sh
+npm ci
+```
 
 ```sh
 npm run dev
@@ -36,12 +40,16 @@ The source repository and app are public. Each visitor's edited itinerary remain
 
 ## Try it
 
-1. Explore the editable Kyoto sample itinerary.
+1. Choose English, 简体中文, or 繁體中文 in the header. Start with a blank destination and create your trip, or explicitly open the Kyoto example.
 2. Add an activity, enter a place keyword, and check the generated Maps search link.
 3. Change dates, drag activities to reorder, or use the accessible Move up/Move down buttons. Edit an activity's date to move it to another day.
-4. Select one of 27 presets under **Look & feel**.
+4. Use **Choose a theme** or **Themes & styles** to see all 27 presets. Filter by destination if desired.
 5. Preview your slides and open **Export & share**.
 6. Download self-contained HTML, a JSON backup, or a ZIP with both. Import the JSON to keep editing later.
+
+The setup screen visually introduces the three main stages. Creating a trip starts a five-step guide that highlights details, activities, themes, preview, and export. Dismiss it anytime or reopen it with **Start here**. Styled dropdowns support pointer input, arrow keys, Enter, Escape, and type-to-select; editable suggestions also accept custom text.
+
+The language preference is remembered on this device. Both Chinese interfaces include guidance, themes, menus, validation messages, dates, and export labels/instructions. Existing trip titles and notes are preserved as written. JSON stores a `language` field; older files without it remain supported.
 
 ## Privacy and persistence
 
@@ -59,9 +67,11 @@ The source repository and app are public. Each visitor's edited itinerary remain
 - `app/trip.js`: versioned trip schema, validation, themes, example data, map links.
 - `app/export.js`: portable slide renderer, photo embedding, ZIP generation.
 - `app/styles.css`: responsive editor styles.
+- `app/i18n.js`: English, Simplified Chinese, and Traditional Chinese interface strings.
+- `app/dropdowns.js`: accessible styled select and suggestion menus.
 - `app/assets/`: bundled starter photography and favicon.
 - `scripts/`: local server, static build, and GitHub Pages publishing.
-- `tests/`: validation, escaping/privacy, date, pagination, theme and ZIP tests.
+- `tests/`: validation, escaping/privacy, date, pagination, theme and ZIP tests, plus DOM interaction coverage for setup, dropdowns, guidance, and language switching. DOM tests do not replace visual browser QA.
 - `DESIGN_PLAN.md`: original product design and phased scope.
 
 ## Starter image credits

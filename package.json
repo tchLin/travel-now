@@ -8,8 +8,13 @@
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check app/app.js && node --check app/trip.js && node --check app/export.js",
+    "check": "node --check app/app.js && node --check app/trip.js && node --check app/export.js && node --check app/i18n.js && node --check app/dropdowns.js",
     "deploy": "npm run check && npm test && npm run build && node scripts/deploy.mjs"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "happy-dom": "^21.0.4"
+  }
 }
