@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Window } from 'happy-dom';
-import { demoTrip } from '../app/trip.js';
+import { demoTrip, themes, themeLayouts } from '../app/trip.js';
 import { translate, localizeUI } from '../app/i18n.js';
 
 test('language round trips, direct deletion, and destination-neutral themes work together',async t=>{
@@ -61,8 +61,8 @@ test('language round trips, direct deletion, and destination-neutral themes work
       assert.equal(document.querySelectorAll('.theme-card').length,27);
       assert.doesNotMatch($('.styles-section').textContent,/Japan|Korea|France|Germany|China|Spain|Europe|Kyoto|Seoul|Paris/);
       assert.equal($('[data-action="region"]'),null);
-      for(const layout of ['journal','serif','modern']){
-        $(`[data-layout="${layout}"]`).click();assert.equal(document.querySelectorAll('.theme-card').length,9);
+      for(const {id:layout} of themeLayouts){
+        $(`[data-layout="${layout}"]`).click();assert.equal(document.querySelectorAll('.theme-card').length,themes.filter(theme=>theme.layout===layout).length);
         const card=$('.theme-card'),id=card.dataset.id;card.click();assert.equal(saved().themeId,id);assert.deepEqual(saved().activities,activities);
       }
       $('[data-layout="All styles"]').click();language('zh-TW');language('en');

@@ -24,7 +24,15 @@ const palettes = [
   ['#e6edde','#41604a','#abc49b'], ['#f2e6d7','#80603b','#d2b78d'], ['#e2eae7','#3d5e59','#a0bbb1'],
   ['#eae8df','#565d48','#bbc2a4'], ['#f3e7d9','#80573e','#d8b592'], ['#e2ebed','#3d606b','#a2c0ca'],
 ];
-export const themes = names.flatMap((group, i) => group.map((name, j) => ({ id: `theme-${i * 3 + j}`, name, background: palettes[i * 3 + j][0], ink: palettes[i * 3 + j][1], accent: palettes[i * 3 + j][2], layout: ['journal', 'serif', 'modern'][j] })));
+export const themeLayouts = [
+  { id:'journal', name:'Timeline journal', description:'Follow the day in time order, with notes and generous side images.' },
+  { id:'editorial', name:'Editorial spread', description:'A lead story with a large photograph, followed by smaller stories.' },
+  { id:'photo', name:'Photo story', description:'Image-first cards with short captions and a panoramic cover.' },
+  { id:'postcard', name:'Postcards', description:'Framed scenes with alternating pictures and messages.' },
+  { id:'scrapbook', name:'Scrapbook', description:'Layered paper, tilted photographs, and handwritten-style headings.' },
+  { id:'minimal', name:'Minimal itinerary', description:'A bold date column and clean, compact activity lists.' },
+];
+export const themes = names.flatMap((group, i) => group.map((name, j) => ({ id: `theme-${i * 3 + j}`, name, background: palettes[i * 3 + j][0], ink: palettes[i * 3 + j][1], accent: palettes[i * 3 + j][2], layout: themeLayouts[(i * 3 + j) % themeLayouts.length].id })));
 export const categories = ['Explore', 'Food & drink', 'Stay', 'Transport', 'Free time'];
 export const statuses = ['Confirmed', 'Tentative', 'Optional'];
 export const uid = () => globalThis.crypto.randomUUID();

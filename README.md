@@ -44,7 +44,7 @@ The source repository and app are public. Each visitor's edited itinerary remain
 2. Add an activity, enter a place keyword, and check the generated Maps search link. Confirm the name/address, then paste a direct share link in the field immediately below it.
 3. Add optional opening hours from text, JSON-LD, or an HTML/JSON/text file. Choose a cozy illustration, filter by region/activity, or upload your own photo.
 4. Change dates, drag activities to reorder, or use the accessible Move up/Move down buttons. Edit an activity's date to move it to another day. Delete directly from its itinerary card; **Undo last change** restores it.
-5. Use **Choose a theme** or **Themes & styles** to see all 27 presets. Filter by Journal, Classic, or Modern layout. Themes are named for their mood and work with any destination.
+5. Use **Choose a theme** or **Themes & styles** to see all 27 presets. Filter by Timeline journal, Editorial spread, Photo story, Postcards, Scrapbook, or Minimal itinerary. Themes are named for their mood and work with any destination; existing theme IDs remain supported.
 6. Preview your slides and open **Export & share**.
 7. Download self-contained HTML, a JSON backup, or a ZIP with both. Import the JSON to keep editing later.
 
@@ -52,7 +52,9 @@ The setup screen visually introduces the three main stages. On arrival, a dialog
 
 The language preference is remembered on this device. Both Chinese interfaces include guidance, themes, menus, validation messages, dates, and export labels/instructions. User-written trip titles and notes are preserved as written. Unchanged app-provided defaults and example content follow the selected language, including older saved examples. Interface labels can switch back to English without retaining Chinese translations. JSON stores a `language` field; older files without it remain supported.
 
-Slide pages fit their content with tighter spacing. Activity images use a dedicated large panel, expand on single-activity days, and stack above the details on phones. Text-only and empty days avoid unused image columns or a fixed tall page.
+Slide pages fit their content, and six layout families change the composition: timelines, magazine lead stories, image-first cards, alternating postcards, layered scrapbook pages, and a date-column itinerary. Covers and typography differ too. Layout previews in the theme picker show these arrangements; **Preview slides** displays the selected theme with the actual trip. Images and details stack on phones.
+
+On phones, the header exposes Export and More. More contains language, preview, cover, import, and new-trip controls. Sticky Itinerary / Themes & styles / Trip details tabs replace repeated navigation and decorative content. Days appear with the itinerary. Switching sections scrolls and focuses the requested panel; the Themes section keeps the selected theme and Preview control available.
 
 ## Privacy and persistence
 

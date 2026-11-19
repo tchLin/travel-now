@@ -120,3 +120,20 @@ See [README](README.md) for usage and integration constraints, and [artwork docu
 - Make slides fit their content: reduce outer padding and heading gaps, remove the fixed minimum page height, and put activity images in a larger dedicated panel. Single-activity days give images more space; phones stack image and text; image-free activities keep a compact text layout.
 
 Regression coverage includes touch/blur/delayed-click and scroll behavior, language round trips and saved demo migration, preservation of user text, direct deletion/undo, layout-based theme selection, and slide content across all themes. Real-device touch and browser visual review remain separate from DOM and endpoint tests.
+
+## Phone navigation and distinct layout families
+
+Phone feedback identified excessive introductory content and a theme action that appeared to do nothing because the new panel stayed below the current viewport. The phone editor now has a compact Export/More header, sticky primary tabs, and itinerary-local day buttons. Hide the duplicate sidebar, breadcrumb, hero banner, theme shortcut, and slogans on narrow screens. Keep cover editing available in Details and More. Navigation scrolls and focuses the requested panel, and themes have an explicit selected-state summary and Preview action.
+
+The palette-only variation is replaced by six structural layout families, retaining all 27 saved theme IDs:
+
+| Layout | Cover | Daily itinerary |
+| --- | --- | --- |
+| Timeline journal | Side-by-side text and arched image | Chronological rail, times, notes, and side images |
+| Editorial spread | Large photograph opposite a headline | Large lead activity followed by two-column secondary stories |
+| Photo story | Panoramic photograph above the title | Image-first card grid |
+| Postcards | Message card over a full image | Alternating framed pictures and messages |
+| Scrapbook | Tilted photograph and paper note | Staggered paper cards and a wider closing memory |
+| Minimal itinerary | Bold title with a wide image strip | Separate date column and compact activity list |
+
+Picker miniatures reflect these compositions. All six stack appropriately on narrow screens, preserve empty/text-only days, and include notes, maps, hours, and optional costs. Regression tests check navigation, menu access, theme persistence and full preview, responsive rules at 320/390/430 pixels in all languages, and structurally distinct layouts. DOM/CSS checks do not replace real-device browser visual QA.
