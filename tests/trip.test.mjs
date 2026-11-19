@@ -67,7 +67,7 @@ test('slides split busy days into groups of three and preserve empty days', () =
 test('map searches preserve special characters through URL encoding', () => {
   const url=new URL(mapsUrl('Tea & coffee / café','日本'));
   assert.equal(url.searchParams.get('api'),'1');
-  assert.equal(url.searchParams.get('query'),'Tea & coffee / café, 日本');
+  assert.equal(url.searchParams.get('query'),'Tea & coffee / café');
 });
 test('ZIP contains UTF-8 HTML and JSON entries with valid stored bytes', async () => {
   const files={'trip.html':'<h1>日本 & café</h1>','trip.json':JSON.stringify(demoTrip())};

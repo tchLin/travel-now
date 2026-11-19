@@ -41,13 +41,14 @@ The source repository and app are public. Each visitor's edited itinerary remain
 ## Try it
 
 1. Choose English, 简体中文, or 繁體中文 in the header. Start with a blank destination and create your trip, or explicitly open the Kyoto example.
-2. Add an activity, enter a place keyword, and check the generated Maps search link.
-3. Change dates, drag activities to reorder, or use the accessible Move up/Move down buttons. Edit an activity's date to move it to another day.
-4. Use **Choose a theme** or **Themes & styles** to see all 27 presets. Filter by destination if desired.
-5. Preview your slides and open **Export & share**.
-6. Download self-contained HTML, a JSON backup, or a ZIP with both. Import the JSON to keep editing later.
+2. Add an activity, enter a place keyword, and check the generated Maps search link. Confirm the name/address, then paste a direct share link in the field immediately below it.
+3. Add optional opening hours from text, JSON-LD, or an HTML/JSON/text file. Choose from 180 cozy illustrations, filter by region/activity, or upload your own photo.
+4. Change dates, drag activities to reorder, or use the accessible Move up/Move down buttons. Edit an activity's date to move it to another day.
+5. Use **Choose a theme** or **Themes & styles** to see all 27 presets. Filter by destination if desired.
+6. Preview your slides and open **Export & share**.
+7. Download self-contained HTML, a JSON backup, or a ZIP with both. Import the JSON to keep editing later.
 
-The setup screen visually introduces the three main stages. Creating a trip starts a five-step guide that highlights details, activities, themes, preview, and export. Dismiss it anytime or reopen it with **Start here**. Styled dropdowns support pointer input, arrow keys, Enter, Escape, and type-to-select; editable suggestions also accept custom text.
+The setup screen visually introduces the three main stages. On arrival, a dialog asks whether you want guidance. Accept to see a five-step guide covering details, activities, themes, preview, and export; for a new trip it waits until setup is complete. Decline or dismiss to continue on your own. The choice lasts for this tab session, and there is no Start here button. Styled dropdowns support pointer input, arrow keys, Enter, Escape, and type-to-select; editable suggestions also accept custom text.
 
 The language preference is remembered on this device. Both Chinese interfaces include guidance, themes, menus, validation messages, dates, and export labels/instructions. Existing trip titles and notes are preserved as written. JSON stores a `language` field; older files without it remain supported.
 
@@ -57,7 +58,8 @@ The language preference is remembered on this device. Both Chinese interfaces in
 - Private notes are omitted from HTML slides. Costs are hidden unless selected in export settings.
 - JSON/ZIP backups include private notes and costs. Keep these private; share the HTML with your group.
 - Uploaded photos are resized locally and embedded in exports. No uploaded photos or trip data are sent to a server by the application.
-- Map links open Google Maps when clicked. There is no Google API integration or verified automatic place/photo lookup in this prototype.
+- Keyword map links use the exact entered place without appending the trip country. A custom link takes priority; supported place IDs/coordinates imported with a trip can provide more precise links. Search results still require checking the place name/address. There is no live Google Places lookup.
+- Opening-hours imports run locally and never execute pasted HTML. Hours retain an optional source and date checked, appear in slides, and remain editable in JSON. They are not live verified. This static app does not fetch or scrape arbitrary venue URLs.
 - If storage fills, an explicit warning asks you to download a backup. Do not rely on localStorage as your only copy.
 - Imported JSON accepts only known fields and supported image/link formats. Limits: 90 days, 500 activities, 25 MB per JSON file. Activity times must fall within the same day.
 
@@ -69,10 +71,24 @@ The language preference is remembered on this device. Both Chinese interfaces in
 - `app/styles.css`: responsive editor styles.
 - `app/i18n.js`: English, Simplified Chinese, and Traditional Chinese interface strings.
 - `app/dropdowns.js`: accessible styled select and suggestion menus.
-- `app/assets/`: bundled starter photography and favicon.
+- `app/guidance.js` and `app/guidance.css`: optional arrival prompt and session preference.
+- `app/places.js`: exact keyword links and custom/place-ID/coordinate link precedence.
+- `app/opening-hours.js` and `app/hours-view.js`: safe hours imports, validation, and rendering.
+- `app/activity-art.js`: localized, filterable catalog of 180 original illustrations.
+- `app/assets/`: original SVG illustrations, PNG export companions, starter photography, and favicon.
 - `scripts/`: local server, static build, and GitHub Pages publishing.
-- `tests/`: validation, escaping/privacy, date, pagination, theme and ZIP tests, plus DOM interaction coverage for setup, dropdowns, guidance, and language switching. DOM tests do not replace visual browser QA.
+- `tests/`: validation, escaping/privacy, date, pagination, theme and ZIP tests, plus DOM coverage for setup, dropdowns, guidance, languages, map editing, hours, and illustration selection. Real HTTP tests check static endpoints, all 360 illustration files, MIME types, HEAD, errors, and project subpaths. Tests bind a local loopback port. DOM tests do not replace visual browser QA.
 - `DESIGN_PLAN.md`: original product design and phased scope.
+
+## Original activity illustrations
+
+There are 20 cozy scenes for each of Japan, Korea, US, China, France, Spain, Germany, Southeast Asia, and Europe. The picker uses original SVG assets; portable HTML/JSON exports embed their PNG companions for offline use. Arbitrary SVG uploads/imports remain disallowed. See [artwork coverage and regeneration](docs/ACTIVITY_ART.md).
+
+## Opening-hours scope
+
+Paste hours or import plain text, schema.org opening-hours JSON-LD, or HTML containing that JSON-LD. Multiple venue schedules are rejected to avoid importing the wrong place. Record the official source and date checked yourself; import time is not a verification date.
+
+Automatic retrieval is a future integration: [Google Place Details](https://developers.google.com/maps/documentation/places/web-service/place-details) offers hours, subject to [billing](https://developers.google.com/maps/documentation/places/web-service/usage-and-billing) and [data policies](https://developers.google.com/maps/documentation/places/web-service/policies). Arbitrary URL scraping from a static page is limited by [browser CORS rules](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS).
 
 ## Starter image credits
 

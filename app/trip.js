@@ -1,3 +1,6 @@
+import { getActivityArt } from './activity-art.js';
+import { normalizeHours } from './opening-hours.js';
+import { safeMapUrl, validPlaceId, validCoordinates } from './places.js';
 export const destinations = ['Japan', 'Korea', 'US', 'China', 'France', 'Spain', 'Germany', 'Southeast Asia', 'Europe'];
 const names = [
   ['Sakura & Washi', 'Kyoto Tea House', 'Rainy Tokyo Café'],
@@ -34,15 +37,13 @@ export function datesBetween(start, end) {
 export function dateLabel(date, options = { month: 'short', day: 'numeric' }, language = 'en') {
   return new Intl.DateTimeFormat(language === 'en' ? 'en-US' : language, { ...options, timeZone: 'UTC' }).format(new Date(date + 'T12:00:00Z'));
 }
-export function mapsUrl(place, destination = '') {
-  return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent([place, destination].filter(Boolean).join(', '));
-}
+export { mapsUrl } from './places.js';
 export const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 export function safeUrl(value) {
   try { const url = new URL(value); return ['https:', 'http:'].includes(url.protocol) ? url.href : ''; } catch { return ''; }
 }
 export function safeImage(value) {
-  return typeof value === 'string' && (/^assets\/(japan|food|temple)\.jpg$/.test(value) || /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value)) ? value : '';
+  return typeof value === 'string' && (getActivityArt(value)?.src === value || getActivityArt(value)?.rasterSrc === value || /^assets\/(japan|food|temple)\.jpg$/.test(value) || /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value)) ? value : '';
 }
 const dateValid = d => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d) && Number.isFinite(Date.parse(d)) && new Date(d).toISOString().slice(0,10) === d;
 function string(value, name, max = 500, required = false) {
@@ -69,10 +70,14 @@ export function validateTrip(input) {
       if (!categories.includes(a.category) || !statuses.includes(a.status)) throw new Error('An activity has an unsupported category or status.');
       for (const time of [a.startTime ?? '', a.endTime ?? '']) if (time && !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) throw new Error('Activity times must use HH:MM.');
       if (a.endTime && (!a.startTime || a.endTime < a.startTime)) throw new Error('An activity end time must follow its start time on the same day.');
-      if (a.mapUrl && !safeUrl(a.mapUrl)) throw new Error('Map links must start with https:// or http://.');
+      if (a.mapUrl && !safeMapUrl(a.mapUrl)) throw new Error('Map links must start with https:// or http://.');
+      if(a.googlePlaceId && (!validPlaceId(a.googlePlaceId) || a.googlePlaceId.length > 512)) throw new Error('Enter a valid Google Place ID.');
+      if(a.coordinates && !validCoordinates(a.coordinates)) throw new Error('Enter valid latitude and longitude.');
+      if(a.placeAddress != null) string(a.placeAddress,'place address',250);
+      const openingHours=normalizeHours(a.openingHours);
       const cost = a.cost === '' || a.cost == null ? null : a.cost;
       if (cost !== null && (typeof cost !== 'number' || !Number.isFinite(cost) || cost < 0 || cost > 100000000)) throw new Error('Costs must be positive numbers.');
-      return { id: string(a.id, 'activity ID', 100, true), title: string(a.title, 'activity title', 160, true), place: string(a.place ?? '', 'place', 250), date: a.date, startTime: a.startTime || '', endTime: a.endTime || '', category: a.category, status: a.status, notes: string(a.notes ?? '', 'activity notes', 3000), privateNotes: string(a.privateNotes ?? '', 'private notes', 3000), mapUrl: a.mapUrl || '', image: image(a.image), cost, currency: string(a.currency ?? 'JPY', 'currency', 3, true) };
+      return { id: string(a.id, 'activity ID', 100, true), title: string(a.title, 'activity title', 160, true), place: string(a.place ?? '', 'place', 250), date: a.date, startTime: a.startTime || '', endTime: a.endTime || '', category: a.category, status: a.status, notes: string(a.notes ?? '', 'activity notes', 3000), privateNotes: string(a.privateNotes ?? '', 'private notes', 3000), mapUrl: a.mapUrl || '', ...(openingHours ? {openingHours} : {}), ...(a.googlePlaceId ? {googlePlaceId:validPlaceId(a.googlePlaceId)} : {}), ...(a.coordinates ? {coordinates:validCoordinates(a.coordinates)} : {}), ...(a.placeAddress ? {placeAddress:a.placeAddress} : {}), image: image(a.image), cost, currency: string(a.currency ?? 'JPY', 'currency', 3, true) };
     }),
   };
   try { new Intl.DateTimeFormat('en', { timeZone: trip.timezone }); } catch { throw new Error('Enter a valid timezone, such as Asia/Tokyo or Europe/Paris.'); }

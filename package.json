@@ -8,7 +8,7 @@
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check app/app.js && node --check app/trip.js && node --check app/export.js && node --check app/i18n.js && node --check app/dropdowns.js",
+    "check": "node --check app/app.js && node --check app/trip.js && node --check app/export.js && node --check app/i18n.js && node --check app/dropdowns.js && node --check app/guidance.js && node --check app/places.js && node --check app/opening-hours.js && node --check app/hours-view.js && node --check app/activity-art.js && node --check scripts/serve.mjs",
     "deploy": "npm run check && npm test && npm run build && node scripts/deploy.mjs"
   },
   "engines": {

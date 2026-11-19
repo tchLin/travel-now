@@ -16,6 +16,8 @@ test('onboarding, menus, tour, translations, and saved content work together', a
   const chooseLanguage=language=>{const field=$('[name="language"]');field.value=language;field.dispatchEvent(new Event('change',{bubbles:true}));};
   try {
     await import('../app/app.js');
+    assert.equal($('[data-action="guide"]'),null);
+    $('[data-guidance-choice="accept"]').click();
     await t.test('first visit starts with a destination-free form and all 27 styles',()=>{
       assert.ok($('#setup-form'));
       assert.equal($('#setup-form [name="destination"]').value,'');

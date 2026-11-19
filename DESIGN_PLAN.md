@@ -95,6 +95,17 @@ The user selected free, public GitHub Pages hosting instead of OpenAI hosting. T
 
 The initial Kyoto default made the product feel destination-specific, and “Look & feel” obscured theme selection. The revised first visit starts with a blank destination, a visual introduction to the three planning stages, and a setup form. Kyoto is an explicitly selected example. Existing saved trips are preserved.
 
-A visible “Choose a theme” control and “Themes & styles” section expose all 27 themes before destination filtering. New trips start a dismissible five-step guide, which can be reopened with “Start here.” The guide points to real controls for trip details, activities, themes, preview, and export. Styled menus replace native select/datalist popups and support keyboard interaction.
+A visible “Choose a theme” control and “Themes & styles” section expose all 27 themes before destination filtering. The initial guide automatically started for new trips and had a “Start here” button; the arrival revision below replaces that behavior. The guide points to real controls for trip details, activities, themes, preview, and export. Styled menus replace native select/datalist popups and support keyboard interaction.
 
 English, Simplified Chinese, and Traditional Chinese are available through a persistent language switcher. Translation covers setup, the editor, dialogs, themes, guidance, validation messages, dates, slide labels, and export instructions. User-authored trip content is not translated automatically. JSON includes the selected language; version 1 files without a language field remain supported. A development-only DOM test library exercises these interactions without adding runtime dependencies to the public site.
+
+
+## Arrival, place details, and original artwork revision
+
+- Ask whether guidance is wanted on arrival. Accepting begins the tour once a trip is ready; declining keeps it out of the way for that tab session. Remove “Start here.” The invitation and tour support keyboard focus and all three languages.
+- Generate map searches from the exact entered keyword. The old automatic country suffix could turn 高雄美術館 into a search biased toward the sample Japan trip. A search remains a search, not a verified place match. Prefer a saved custom link, then explicit place ID/coordinates, then the keyword. Place the custom-link field immediately after the preview/check link.
+- Add optional opening hours, source URL, and date checked. Import multilingual text, schema.org JSON-LD, or HTML/JSON/text files locally. Reject ambiguous multiple-venue schedules; never execute imported markup. Preserve hours in editable JSON and display them on slides with their source and manual/imported status. Automatic live retrieval needs a future provider/backend integration and is not part of this static release.
+- Supply 180 original cozy activity illustrations: 20 for each of the nine destination groups. Filter visually by region and activity category. Use allowlisted SVGs in the editor and PNG companions for self-contained exports. Keep starter photos and uploads available.
+- Cover the invitation, exact map queries/link precedence, custom-field order and persistence, hours parsing/rendering, illustration counts/filters/portability, and language behavior with unit/DOM tests. Exercise real static HTTP endpoints including every SVG/PNG, project-prefix routing, MIME types, HEAD, missing paths, forbidden traversal, and unsupported methods.
+
+See [README](README.md) for usage and integration constraints, and [artwork documentation](docs/ACTIVITY_ART.md) for scenes and regeneration.
