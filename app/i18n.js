@@ -1,12 +1,51 @@
+import { activityArt, artworkRegions } from './activity-art.js';
 import { guidanceMessages } from './guidance.js';
 import { openingHoursMessages } from './opening-hours.js';
 export const languages = ['en', 'zh-CN', 'zh-TW'];
 // Canonical values remain English in JSON. Only interface labels are translated.
 const strings = {
+  "Language": ["语言", "語言"],
+  "English": ["英语", "英語"],
+  "Simplified Chinese": ["简体中文", "簡體中文"],
+  "Traditional Chinese": ["繁体中文", "繁體中文"],
+  "All styles": ["全部风格", "全部風格"],
+  "Journal": ["手帐风", "手帳風"],
+  "Classic": ["经典风", "經典風"],
+  "Modern": ["现代风", "現代風"],
+  "Petal Paper": ["花瓣信纸", "花瓣信紙"],
+  "Moss & Linen": ["苔绿亚麻", "苔綠亞麻"],
+  "Rainy Window": ["雨日窗边", "雨日窗邊"],
+  "Warm Timber": ["温暖木色", "溫暖木色"],
+  "Caramel Café": ["焦糖咖啡馆", "焦糖咖啡館"],
+  "Meadow Rest": ["草甸小憩", "草甸小憩"],
+  "Forest Journal": ["森林手帐", "森林手帳"],
+  "Sea Glass": ["海玻璃", "海玻璃"],
+  "Amber Weekend": ["琥珀周末", "琥珀週末"],
+  "Bamboo Sketch": ["竹影速写", "竹影速寫"],
+  "Golden Tea": ["金色茶香", "金色茶香"],
+  "Lantern Glow": ["灯笼暖光", "燈籠暖光"],
+  "Sepia Notebook": ["暖褐笔记", "暖褐筆記"],
+  "Lavender Cottage": ["薰衣草小屋", "薰衣草小屋"],
+  "Cloud Retreat": ["云间休憩", "雲間休憩"],
+  "Terracotta Days": ["陶土时光", "陶土時光"],
+  "Blue Horizon": ["蓝色地平线", "藍色地平線"],
+  "Honey Sketchbook": ["蜂蜜画册", "蜂蜜畫冊"],
+  "Fern & Paper": ["蕨叶与纸", "蕨葉與紙"],
+  "Cocoa Guesthouse": ["可可小舍", "可可小舍"],
+  "Quiet Bookshop": ["静谧书店", "靜謐書店"],
+  "Palm Shade": ["棕榈树荫", "棕櫚樹蔭"],
+  "Sunlit Café": ["日光咖啡馆", "日光咖啡館"],
+  "Rain Garden": ["雨中花园", "雨中花園"],
+  "Slow Journey": ["慢慢旅行", "慢慢旅行"],
+  "Buttercream Bakery": ["奶油面包房", "奶油麵包房"],
+  "Still Water": ["静水时光", "靜水時光"],
+  "Choose a mood or filter by layout. Every theme works with every destination. Click a card to apply it.": ["选择喜欢的氛围，或按版式筛选。所有主题都适合任何目的地，点击卡片即可应用。", "選擇喜歡的氛圍，或按版式篩選。所有主題都適合任何目的地，點擊卡片即可套用。"],
+
+  ...Object.fromEntries([...activityArt,...artworkRegions].map(item=>[item.labels.en,[item.labels['zh-CN'],item.labels['zh-TW']]])),
   ...guidanceMessages,
   ...openingHoursMessages,
-  '180 cozy activity illustrations': ['180 张温暖活动插画','180 張溫暖活動插畫'],
-  '20 original illustrations for every destination group. Choose an activity and a mood; these are decorative scenes, not photos of actual places.': ['每个目的地组别都有 20 张原创插画。选择活动与氛围；这些是装饰场景，并非真实地点照片。','每個目的地組別都有 20 張原創插畫。選擇活動與氛圍；這些是裝飾場景，並非真實地點照片。'],
+  'Cozy activity illustrations': ['温馨活动插画','溫馨活動插畫'],
+  'Choose a scene that suits your trip. Illustrations are decorative, not photos of actual places.': ['选择适合行程的场景。插画用于装饰，并非真实地点照片。','選擇適合行程的場景。插畫用於裝飾，並非真實地點照片。'],
   'Destination style': ['目的地风格','目的地風格'],
   'Activity type': ['活动类型','活動類型'],
   'All activity types': ['所有活动类型','所有活動類型'],
@@ -244,17 +283,28 @@ export function translate(text, language = 'en') {
   return text;
 }
 const privateText = '[data-user-content], textarea, script, style, .current-trip strong, .page-heading h1, .hero-banner p, .activity-body h3, .activity-body>p, .place-link, .trip-meta>span:last-child';
+const sourceText = new WeakMap(), sourceAttributes = new WeakMap();
+const uiSources = new Map(Object.entries(strings).flatMap(([key,values])=>values.map(value=>[value,key])));
+const canonicalUI = text => strings[text] ? text : uiSources.get(text) || text;
 export function localizeUI(root, language) {
-  if (language === 'en') return;
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
   for (const node of nodes) {
     if (node.parentElement?.closest(privateText)) continue;
-    const source = node.textContent.trim();
-    if (source) node.textContent = node.textContent.replace(source, translate(source,language));
+    const current=node.textContent, saved=sourceText.get(node);
+    const source=saved && current===saved.rendered ? saved.source : current.replace(current.trim(),canonicalUI(current.trim()));
+    const rendered=source.replace(source.trim(),translate(source.trim(),language));
+    node.textContent=rendered;sourceText.set(node,{source,rendered});
   }
   for (const element of root.querySelectorAll('[placeholder], [aria-label], [title], img[alt]')) {
-    for (const attr of ['placeholder','aria-label','title','alt']) if (element.hasAttribute(attr)) element.setAttribute(attr, translate(element.getAttribute(attr),language));
+    if(element.closest('[data-user-content]'))continue;
+    const saved=sourceAttributes.get(element)||{};
+    for (const attr of ['placeholder','aria-label','title','alt']) if (element.hasAttribute(attr)) {
+      const current=element.getAttribute(attr), previous=saved[attr];
+      const source=previous && current===previous.rendered ? previous.source : canonicalUI(current);
+      const rendered=translate(source,language);element.setAttribute(attr,rendered);saved[attr]={source,rendered};
+    }
+    sourceAttributes.set(element,saved);
   }
 }
 export function translatedKeys() { return Object.keys(strings); }

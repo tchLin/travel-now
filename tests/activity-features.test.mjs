@@ -61,7 +61,7 @@ test('declining guidance, importing hours, and selecting artwork persist through
       $('[data-action="edit"][data-id="a1"]').click();
       assert.equal($('.hours-editor>summary').textContent,translate('Opening hours (optional)',language));
       assert.equal($('.hours-file-label span').textContent,translate('Choose an hours file',language));
-      assert.equal($('.illustration-library>summary').textContent,translate('180 cozy activity illustrations',language));
+      assert.equal($('.illustration-library>summary').textContent,translate('Cozy activity illustrations',language));
       assert.equal($('#map-preview').textContent.trim(),translate('Search Google Maps',language));
       assert.match($('#art-gallery button').getAttribute('aria-label'),/[\u3400-\u9fff]/);
       $('#hours-import-content').value='';

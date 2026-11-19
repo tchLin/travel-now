@@ -3,10 +3,12 @@ import assert from 'node:assert/strict';
 import { demoTrip, validateTrip, themes, destinations, datesBetween, mapsUrl, publicTrip, slidesFor, safeImage } from '../app/trip.js';
 import { renderDeck, zipFiles } from '../app/export.js';
 
-test('all 27 styles are unique, with three styles per destination', () => {
+test('all 27 styles are destination-neutral, with nine palettes per layout', () => {
   assert.equal(themes.length, 27);
   assert.equal(new Set(themes.map(t => t.id)).size, 27);
-  for (const destination of destinations) assert.equal(themes.filter(t => t.destination === destination).length, 3);
+  for (const layout of ['journal','serif','modern']) assert.equal(themes.filter(t => t.layout === layout).length, 9);
+  assert.ok(themes.every(t=>!('destination' in t)));
+  assert.equal(new Set(themes.map(t=>t.name)).size,27);
 });
 test('the example trip survives a JSON round trip without losing fields', () => {
   const original = demoTrip();

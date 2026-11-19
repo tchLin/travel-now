@@ -10,7 +10,7 @@ The core journey is: create a trip, enter destinations and dates, plan each day,
 
 ## Initial style library
 
-Every style is available for any destination; these are visual inspirations rather than restrictions.
+This table records the original proposal. The current library uses destination-neutral names and layout filters, as described in the mobile and presentation revision below.
 
 | Destination | Style 1 | Style 2 | Style 3 |
 | --- | --- | --- | --- |
@@ -109,3 +109,14 @@ English, Simplified Chinese, and Traditional Chinese are available through a per
 - Cover the invitation, exact map queries/link precedence, custom-field order and persistence, hours parsing/rendering, illustration counts/filters/portability, and language behavior with unit/DOM tests. Exercise real static HTTP endpoints including every SVG/PNG, project-prefix routing, MIME types, HEAD, missing paths, forbidden traversal, and unsupported methods.
 
 See [README](README.md) for usage and integration constraints, and [artwork documentation](docs/ACTIVITY_ART.md) for scenes and regeneration.
+
+## Mobile, language, and presentation revision
+
+- Destination suggestions use native buttons with pointer-release selection. Protect an active tap from input blur, suppress duplicate delayed clicks, and ignore scrolling/canceled gestures. Preserve free text, desktop clicks, and keyboard selection.
+- Keep interface localization reversible across English, Simplified Chinese, and Traditional Chinese, including existing dialog labels and menu choices. Recognized, untouched app-provided defaults and demo fields follow the interface language; user-written content stays intact. Let longer labels and card actions wrap on narrow screens.
+- Add Delete activity directly to itinerary cards, with the existing Undo operation and focus moved to Undo after deletion.
+- Remove geography from theme names, setup options, cards, and filters. Keep all 27 stable theme IDs/palettes for existing JSON files. Group them into Journal, Classic, and Modern (nine each). Regional filters remain in the illustration library.
+- Simplify the picker heading to “Cozy activity illustrations.” Redraw the original vector scenes with curved foliage/mountains, rounded forms, softer shadows, lighter outlines, and less rigid details; regenerate all PNG export companions.
+- Make slides fit their content: reduce outer padding and heading gaps, remove the fixed minimum page height, and put activity images in a larger dedicated panel. Single-activity days give images more space; phones stack image and text; image-free activities keep a compact text layout.
+
+Regression coverage includes touch/blur/delayed-click and scroll behavior, language round trips and saved demo migration, preservation of user text, direct deletion/undo, layout-based theme selection, and slide content across all themes. Real-device touch and browser visual review remain separate from DOM and endpoint tests.

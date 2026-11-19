@@ -3,15 +3,15 @@ import { normalizeHours } from './opening-hours.js';
 import { safeMapUrl, validPlaceId, validCoordinates } from './places.js';
 export const destinations = ['Japan', 'Korea', 'US', 'China', 'France', 'Spain', 'Germany', 'Southeast Asia', 'Europe'];
 const names = [
-  ['Sakura & Washi', 'Kyoto Tea House', 'Rainy Tokyo Café'],
-  ['Hanok Morning', 'Seoul Café', 'Jeju Retreat'],
-  ['National Park Cabin', 'Coastal Cottage', 'Autumn Road Trip'],
-  ['Bamboo & Ink', 'Courtyard Tea', 'Lantern Evening'],
-  ['Parisian Notebook', 'Provence Cottage', 'Alpine Chalet'],
-  ['Terracotta Courtyard', 'Mediterranean Siesta', 'Barcelona Sketchbook'],
-  ['Black Forest Cabin', 'Bavarian Guesthouse', 'Riverside Bookshop'],
-  ['Tropical Hideaway', 'Old Town Café', 'Monsoon Journal'],
-  ['Rail Travel Journal', 'Village Bakery', 'Lakeside Retreat'],
+  ['Petal Paper', 'Moss & Linen', 'Rainy Window'],
+  ['Warm Timber', 'Caramel Café', 'Meadow Rest'],
+  ['Forest Journal', 'Sea Glass', 'Amber Weekend'],
+  ['Bamboo Sketch', 'Golden Tea', 'Lantern Glow'],
+  ['Sepia Notebook', 'Lavender Cottage', 'Cloud Retreat'],
+  ['Terracotta Days', 'Blue Horizon', 'Honey Sketchbook'],
+  ['Fern & Paper', 'Cocoa Guesthouse', 'Quiet Bookshop'],
+  ['Palm Shade', 'Sunlit Café', 'Rain Garden'],
+  ['Slow Journey', 'Buttercream Bakery', 'Still Water'],
 ];
 const palettes = [
   ['#f7e8e5','#7f414f','#e3b4b4'], ['#f2eee2','#47563f','#bdc5a7'], ['#e5eaef','#344d65','#a5b8cc'],
@@ -24,7 +24,7 @@ const palettes = [
   ['#e6edde','#41604a','#abc49b'], ['#f2e6d7','#80603b','#d2b78d'], ['#e2eae7','#3d5e59','#a0bbb1'],
   ['#eae8df','#565d48','#bbc2a4'], ['#f3e7d9','#80573e','#d8b592'], ['#e2ebed','#3d606b','#a2c0ca'],
 ];
-export const themes = names.flatMap((group, i) => group.map((name, j) => ({ id: `theme-${i * 3 + j}`, name, destination: destinations[i], background: palettes[i * 3 + j][0], ink: palettes[i * 3 + j][1], accent: palettes[i * 3 + j][2], layout: ['journal', 'serif', 'modern'][j] })));
+export const themes = names.flatMap((group, i) => group.map((name, j) => ({ id: `theme-${i * 3 + j}`, name, background: palettes[i * 3 + j][0], ink: palettes[i * 3 + j][1], accent: palettes[i * 3 + j][2], layout: ['journal', 'serif', 'modern'][j] })));
 export const categories = ['Explore', 'Food & drink', 'Stay', 'Transport', 'Free time'];
 export const statuses = ['Confirmed', 'Tentative', 'Optional'];
 export const uid = () => globalThis.crypto.randomUUID();

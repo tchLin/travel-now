@@ -42,15 +42,17 @@ The source repository and app are public. Each visitor's edited itinerary remain
 
 1. Choose English, 简体中文, or 繁體中文 in the header. Start with a blank destination and create your trip, or explicitly open the Kyoto example.
 2. Add an activity, enter a place keyword, and check the generated Maps search link. Confirm the name/address, then paste a direct share link in the field immediately below it.
-3. Add optional opening hours from text, JSON-LD, or an HTML/JSON/text file. Choose from 180 cozy illustrations, filter by region/activity, or upload your own photo.
-4. Change dates, drag activities to reorder, or use the accessible Move up/Move down buttons. Edit an activity's date to move it to another day.
-5. Use **Choose a theme** or **Themes & styles** to see all 27 presets. Filter by destination if desired.
+3. Add optional opening hours from text, JSON-LD, or an HTML/JSON/text file. Choose a cozy illustration, filter by region/activity, or upload your own photo.
+4. Change dates, drag activities to reorder, or use the accessible Move up/Move down buttons. Edit an activity's date to move it to another day. Delete directly from its itinerary card; **Undo last change** restores it.
+5. Use **Choose a theme** or **Themes & styles** to see all 27 presets. Filter by Journal, Classic, or Modern layout. Themes are named for their mood and work with any destination.
 6. Preview your slides and open **Export & share**.
 7. Download self-contained HTML, a JSON backup, or a ZIP with both. Import the JSON to keep editing later.
 
-The setup screen visually introduces the three main stages. On arrival, a dialog asks whether you want guidance. Accept to see a five-step guide covering details, activities, themes, preview, and export; for a new trip it waits until setup is complete. Decline or dismiss to continue on your own. The choice lasts for this tab session, and there is no Start here button. Styled dropdowns support pointer input, arrow keys, Enter, Escape, and type-to-select; editable suggestions also accept custom text.
+The setup screen visually introduces the three main stages. On arrival, a dialog asks whether you want guidance. Accept to see a five-step guide covering details, activities, themes, preview, and export; for a new trip it waits until setup is complete. Decline or dismiss to continue on your own. The choice lasts for this tab session, and there is no Start here button. Styled dropdowns support pointer input, arrow keys, Enter, Escape, and type-to-select; editable suggestions also accept custom text. Touch selection completes on release and ignores swipes/canceled gestures, including when the input loses focus before a click.
 
-The language preference is remembered on this device. Both Chinese interfaces include guidance, themes, menus, validation messages, dates, and export labels/instructions. Existing trip titles and notes are preserved as written. JSON stores a `language` field; older files without it remain supported.
+The language preference is remembered on this device. Both Chinese interfaces include guidance, themes, menus, validation messages, dates, and export labels/instructions. User-written trip titles and notes are preserved as written. Unchanged app-provided defaults and example content follow the selected language, including older saved examples. Interface labels can switch back to English without retaining Chinese translations. JSON stores a `language` field; older files without it remain supported.
+
+Slide pages fit their content with tighter spacing. Activity images use a dedicated large panel, expand on single-activity days, and stack above the details on phones. Text-only and empty days avoid unused image columns or a fixed tall page.
 
 ## Privacy and persistence
 

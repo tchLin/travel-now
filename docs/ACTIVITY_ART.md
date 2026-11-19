@@ -2,7 +2,7 @@
 
 The library contains **180 original illustrated activity cards: 20 for each of nine destination groups**. Every card is available as an editable SVG and a 640 × 480 PNG companion. These are original code-native drawings, not stock photos, generated depictions of actual businesses, or verified destination photographs.
 
-The visual language follows Travel Now's simple SVG graphics: warm paper, muted regional palettes, rounded shapes, fine outlines, soft landscape silhouettes, and small architectural/food details. Each activity uses a distinct composition. Regions differ in geometry as well as color, including roof forms, window treatments, timber framing, shophouses, food, bakery products, trees, and accessories.
+The visual language follows Travel Now's simple SVG graphics: warm paper, muted regional palettes, rounded forms, light detail strokes, curved foliage, soft landscape silhouettes, and small architectural/food details. The smoother revision removes heavy outlines from filled shapes and replaces rigid tree and mountain silhouettes with curves. Each activity uses a distinct composition. Regions differ in geometry as well as color, including roof forms, window treatments, timber framing, shophouses, food, bakery products, trees, and accessories.
 
 ## Coverage
 

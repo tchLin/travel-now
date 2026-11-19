@@ -64,8 +64,8 @@ test('onboarding, menus, tour, translations, and saved content work together', a
       assert.match($('.category').textContent,/美食飲品/);
       assert.match($('[data-action="share"]').textContent,/匯出與分享/);
       click('styles');assert.equal(document.querySelectorAll('.theme-card').length,27);
-      assert.ok(!$('.theme-grid').textContent.includes('Kyoto Tea House'));
-      assert.match($('.theme-grid').textContent,/京都茶屋/);
+      assert.ok(!$('.theme-grid').textContent.includes('Moss & Linen'));
+      assert.match($('.theme-grid').textContent,/苔綠亞麻/);
       const stored=JSON.parse(localStorage.getItem('travel-now:trip:v1'));
       assert.equal(stored.destination,'France');assert.equal(stored.language,'zh-TW');assert.equal(stored.activities[0].notes,'Next');
     });

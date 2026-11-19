@@ -18,20 +18,20 @@ const palettes = {
   europe: ['#f5eee2','#d5be9f','#667765','#ae765c','#c7cfae','#b2cad0','#5d5b50'],
 };
 let p, r;
-const rect=(x,y,w,h,fill,rx=0)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}"/>`;
-const circle=(x,y,size,fill)=>`<circle cx="${x}" cy="${y}" r="${size}" fill="${fill}"/>`;
-const ellipse=(x,y,rx,ry,fill)=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${fill}"/>`;
-const path=(d,fill='none',stroke=p.ink,sw=3)=>`<path d="${d}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`;
-const line=(x,y,xx,yy,stroke=p.ink,sw=3)=>path(`M${x} ${y}L${xx} ${yy}`,'none',stroke,sw);
+const rect=(x,y,w,h,fill,rx=0)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${Math.min(w/2,h/2,Math.max(rx,Math.min(w,h)*.16))}" fill="${fill}" stroke="none"/>`;
+const circle=(x,y,size,fill)=>g(path(`M0 ${-size}C${size*.58} ${-size*1.06} ${size*1.06} ${-size*.5} ${size} 0C${size*1.03} ${size*.61} ${size*.44} ${size*1.04} 0 ${size}C${-size*.67} ${size*1.06} ${-size*1.07} ${size*.42} ${-size} 0C${-size*1.03} ${-size*.62} ${-size*.48} ${-size*1.05} 0 ${-size}Z`,fill,'none'),x,y);
+const ellipse=(x,y,rx,ry,fill)=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${fill}" stroke="none"/>`;
+const path=(d,fill='none',stroke=p.ink,sw=3)=>`<path d="${d}" fill="${fill}" stroke="${fill!=='none' && stroke===p.ink ? 'none' : stroke}" stroke-width="${sw*.72}" stroke-linecap="round" stroke-linejoin="round"/>`;
+const line=(x,y,xx,yy,stroke=p.ink,sw=3)=>path(`M${x} ${y}Q${(x+xx)/2+Math.min(1.8,Math.abs(yy-y)*.016)} ${(y+yy)/2-Math.min(1.6,Math.abs(xx-x)*.014)} ${xx} ${yy}`,'none',stroke,sw);
 const g=(body,x=0,y=0,scale=1)=>`<g transform="translate(${x} ${y}) scale(${scale})">${body}</g>`;
-const shadow=(x=320,y=385,w=215)=>ellipse(x,y,w,17,p.light);
+const shadow=(x=320,y=385,w=215)=>g(path(`M${-w} 0C${-w*.9}-18 ${-w*.25}-22 0-17C${w*.5}-24 ${w*1.1}-9 ${w} 4C${w*.9} 23 ${w*.2} 17 0 20C${-w*.6} 19 ${-w} 16 ${-w} 0Z`,p.light,'none'),x,y);
 const cloud=(x,y,s=1)=>g(path('M0 23C-3 7 14-3 29 5C41-13 70-6 74 12C96 8 109 20 105 32H0Z',p.paper,p.paper),x,y,s);
 function sky(){return circle(493,101,36,p.sand)+cloud(78,88,.8)+cloud(338,58,.55)+path('M385 114q10-12 20 0q10-12 20 0','none',p.ink,2.5);}
 function grass(){return path('M42 371Q160 335 301 365T603 360L603 480H42Z',p.light,p.light)+path('M84 398l4-12m0 12 9-8M521 407l5-13m-4 12 13-6','none',p.leaf,2);}
 function tree(x,y,s=1){
   if(r==='southeast-asia'||r==='spain')return g(path('M0 0Q15-53 4-126','none',p.ink,8)+path('M4-120Q-52-153-71-104Q-29-119 4-120M4-120Q50-154 76-109Q37-122 4-120M4-120Q8-178-27-166Q-14-139 4-120M4-120Q45-164 55-144Q29-128 4-120',p.leaf,p.leaf),x,y,s);
-  if(r==='germany'||r==='us')return g(line(0,0,0,-126,p.ink,6)+path('M0-159L-43-101H-26L-54-53H-31L-61-8H61L31-53H54L26-101H43Z',p.leaf,p.leaf),x,y,s);
-  const pink=r==='japan';return g(line(0,0,0,-113,p.ink,6)+line(0,-56,-26,-89,p.ink,4)+line(0,-70,25,-109,p.ink,4)+circle(-26,-116,34,pink?p.sand:p.light)+circle(18,-143,40,pink?p.sand:p.leaf)+circle(43,-104,33,pink?p.sand:p.light)+circle(-8,-90,33,pink?p.sand:p.leaf)+circle(-43,-133,5,p.paper)+circle(21,-153,4,p.paper),x,y,s);
+  if(r==='germany'||r==='us')return g(line(0,0,0,-126,p.ink,6)+path('M0-159C-8-150-18-124-38-108Q-49-95-23-99C-33-81-43-67-52-60Q-62-48-29-51C-38-31-50-19-58-12Q-70 3-35 5Q0 15 35 5Q70 3 58-12C50-19 38-31 29-51Q62-48 52-60C43-67 33-81 23-99Q49-95 38-108C18-124 8-150 0-159Z',p.leaf,p.leaf),x,y,s);
+  const pink=r==='japan';return g(line(0,0,0,-113,p.ink,6)+line(0,-56,-26,-89,p.ink,4)+line(0,-70,25,-109,p.ink,4)+path('M-54-103C-75-117-59-150-38-148C-49-177-7-188 10-169C35-190 65-163 55-142C87-124 72-89 48-90C43-65 12-60-3-78C-27-60-60-76-54-103Z',pink?p.sand:p.leaf,'none')+path('M-47-126C-33-157-9-142 3-155M17-99Q42-116 53-106','none',pink?p.paper:p.light,5)+circle(-43,-133,5,p.paper)+circle(21,-153,4,p.paper),x,y,s);
 }
 function plant(x,y,s=1){return g(path('M-17-28H17L12 0H-12Z',p.accent)+path('M0-29V-69M0-44Q-33-70-28-42Q-16-31 0-34M0-57Q32-86 27-57Q17-43 0-45',p.leaf,p.leaf),x,y,s);}
 function lantern(x,y,s=1){return g(line(0,-30,0,-14)+rect(-13,-14,26,34,p.accent,9)+line(-8,-7,-8,13,p.sand,2)+line(8,-7,8,13,p.sand,2)+rect(-11,-17,22,5,p.ink,2)+rect(-9,19,18,5,p.ink,1)+line(0,24,0,32,p.accent,2),x,y,s);}
@@ -60,7 +60,7 @@ function bread(x,y,s=1){const bakery={japan:'melon',korea:'roll',us:'pie',china:
   else if(bakery==='melon')v=ellipse(0,0,48,32,p.sand)+path('M-30-23L20 26M-10-30L38 16M-40-9L0 29M30-23L-20 26M10-30L-38 16M40-9L0 29','none',p.accent,2.5);
   else if(bakery==='coconut')v=ellipse(0,0,46,30,p.sand)+ellipse(0,-1,30,18,p.paper)+path('M-15-4l8 8m6-16 8 11m4-2 9 7','none',p.light,3);
   else v=path('M-48 16Q-54-31 0-30Q54-31 48 16Z',p.sand)+path('M-27-14l12 18M-4-20 8 0M21-14l12 17','none',p.accent,4);
-  return g(v,x,y,s);
+  return g(ellipse(0,22,63,14,p.paper)+v,x,y,s);
 }
 function bowl(x,y,s=1,kind='dinner'){
   let meal=ellipse(0,0,70,32,p.paper)+ellipse(0,-2,57,24,p.sand);
@@ -100,7 +100,7 @@ function scene(activity){switch(activity){
   case 'cycling':return sky()+grass()+house(412,200,140,120,1)+tree(103,334,1)+path('M0 410Q227 309 640 410','none',p.paper,48)+shadow(315,391,147)+bike()+rect(351,264,45,29,p.sand,3)+line(357,270,390,270,p.accent,2)+plant(521,416,.6);
   case 'beach':return sky()+rect(0,234,640,246,p.water)+path('M0 314Q235 297 363 349Q508 386 640 342V480H0Z',p.sand,p.sand)+path('M22 285q42 10 84 0m182-18q42 10 84 0m100 25q42 10 84 0','none',p.paper,3)+parasol(226,385,1.08)+path('M325 338L399 351L375 412L300 395Z',p.paper)+path('M336 341L411 356M328 355L402 369M317 379L386 396','none',p.accent,7)+line(324,405,305,436,p.ink,4)+line(381,414,395,436,p.ink,4)+cup(449,400,.6)+tree(576,377,.9)+house(66,241,82,70);
   case 'boat':return sky()+house(61,180,129,123)+house(449,175,131,128,1)+rect(0,298,640,182,p.water)+path('M145 350H503L462 397H202Z',p.accent)+rect(239,287,179,61,p.paper,6)+rect(252,299,57,34,p.water,3)+rect(324,299,78,34,p.water,3)+path('M229 287H427L407 268H252Z',p.leaf)+line(333,265,333,208,p.ink,4)+path('M333 208L375 221L333 233Z',p.sand)+path('M103 416q48 13 99 0m14 10q75 16 151 0m47-13q63 12 121 0','none',p.paper,4)+(r==='southeast-asia'?line(477,351,561,310,p.ink,6):circle(212,362,12,p.paper));
-  case 'hiking':return sky()+path('M10 347L160 137L282 329L398 111L630 347Z',p.leaf,p.leaf)+path('M118 193L160 137L204 204L171 190L155 203L138 181Z',p.paper,p.paper)+path('M347 184L398 111L474 203L424 187L403 165L383 184Z',p.paper,p.paper)+path('M0 347Q155 283 313 347T640 326V480H0Z',p.light,p.light)+path('M164 480Q440 388 320 340','none',p.sand,43)+tree(91,394,.7)+tree(543,390,.7)+house(442,286,72,65)+rect(394,332,57,69,p.accent,15)+path('M407 335v-13q15-16 30 0v13')+rect(403,364,39,26,p.sand,5)+line(460,338,483,425,p.ink,5);
+  case 'hiking':return sky()+path('M10 347C68 273 120 137 160 137C198 137 249 290 282 329C321 258 359 111 398 111C446 111 560 272 630 347Z',p.leaf,p.leaf)+path('M118 193Q144 137 160 137Q177 137 204 204Q180 188 171 190Q159 211 155 203Q143 181 138 181Z',p.paper,p.paper)+path('M347 184Q380 111 398 111Q424 111 474 203Q442 184 424 187Q406 160 403 165Q388 190 383 184Z',p.paper,p.paper)+path('M0 347Q155 283 313 347T640 326V480H0Z',p.light,p.light)+path('M164 480Q440 388 320 340','none',p.sand,43)+tree(91,394,.7)+tree(543,390,.7)+house(442,286,72,65)+rect(394,332,57,69,p.accent,15)+path('M407 335v-13q15-16 30 0v13')+rect(403,364,39,26,p.sand,5)+line(460,338,483,425,p.ink,5);
   case 'spa':return sky()+house(55,161,175,158,1)+tree(537,322,1)+shadow(322,401,230)+ellipse(322,353,209,76,p.ink)+ellipse(322,344,196,67,p.sand)+ellipse(322,337,174,48,p.water)+path('M260 312q-18-23 0-44m55 48q-18-23 0-44m56 40q-18-23 0-44','none',p.paper,5)+rect(412,307,59,24,p.paper,7)+rect(418,294,49,18,p.paper,7)+ellipse(169,322,27,16,p.light)+plant(510,414,.8);
   case 'resort':return sky()+grass()+house(172,147,298,189,1)+rect(204,341,239,20,p.accent,3)+path('M255 362L229 439H414L387 362Z',p.sand,p.sand)+tree(88,347,1.2)+tree(552,347,1.1)+rect(111,333,43,62,p.paper,8)+path('M119 334v-14q14-12 27 0v14')+line(125,346,125,385,p.accent,3)+line(139,346,139,385,p.accent,3)+plant(468,391,.8);
   case 'bakery':return sky()+house(74,171,182,186,1)+rect(276,193,265,171,p.sand,4)+rect(273,181,270,48,p.paper,3)+path('M273 181H543L521 151H295Z',p.accent)+rect(296,244,225,93,p.paper,4)+bread(354,287,.7)+bread(459,290,.65)+rect(292,344,233,26,p.accent,3)+rect(156,275,41,57,p.ink,3)+plant(555,390,.8)+shadow(320,407,215);
@@ -116,7 +116,7 @@ function scene(activity){switch(activity){
 const escape = text => text.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
 for(const art of activityArt){
   r=art.region;const [paper,sand,leaf,accent,light,water,ink]=palettes[r];p={paper,sand,leaf,accent,light,water,ink};
-  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-labelledby="title"><title id="title">${escape(art.labels.en)}</title><rect width="640" height="480" rx="20" fill="${paper}"/><g stroke="${ink}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${scene(art.activity)}</g></svg>\n`;
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-labelledby="title"><title id="title">${escape(art.labels.en)}</title><rect width="640" height="480" rx="20" fill="${paper}"/><g stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${scene(art.activity)}</g></svg>\n`;
   const file=resolve(root,'app',art.src);await mkdir(dirname(file),{recursive:true});await writeFile(file,svg);
 }
 console.log(`Generated ${activityArt.length} original activity illustrations across ${Object.keys(palettes).length} destinations.`);
