@@ -1,0 +1,14 @@
+{
+  "name": "travel-now",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A cozy trip studio with portable HTML slides and editable JSON itineraries.",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check app/app.js && node --check app/trip.js && node --check app/export.js"
+  },
+  "engines": { "node": ">=20" }
+}
