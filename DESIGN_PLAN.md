@@ -85,4 +85,8 @@ The initial visual direction is an editorial travel journal: forest green accent
 
 ## Known prototype boundaries
 
-No live collaboration, cloud trip storage, real-time Google place/photo lookup, route computation, booking integrations, or live shared links. Autosave is local to the current browser and origin. Private application hosting is separate from shareable exported HTML. Photos are compressed on upload; localStorage quotas still limit large itineraries, so downloadable backups are important. Imported JSON is limited to 25 MB, dates to 90 days, and activities to 500. Travel data is illustrative and is not a recommendation or verified opening-hours information.
+No live collaboration, cloud trip storage, real-time Google place/photo lookup, route computation, booking integrations, or live shared links. Autosave is local to the current browser and origin. Public application hosting is separate from sharing an individual trip: visiting the site does not publish a user's itinerary. Photos are compressed on upload; localStorage quotas still limit large itineraries, so downloadable backups are important. Imported JSON is limited to 25 MB, dates to 90 days, and activities to 500. Travel data is illustrative and is not a recommendation or verified opening-hours information.
+
+## Hosting decision
+
+The user selected free, public GitHub Pages hosting instead of OpenAI hosting. The public `tchLin/travel-now` repository holds source on `main` and static output on `gh-pages`. The app uses relative asset paths so it works at `/travel-now/`. Publication runs checks and builds locally, then pushes static output without force-pushing. No OpenAI deployment is used.

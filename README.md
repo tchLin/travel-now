@@ -2,6 +2,8 @@
 
 A cozy trip studio for turning family and friend itineraries into portable HTML slide decks.
 
+**Live app:** <https://tchlin.github.io/travel-now/>
+
 ## Run locally
 
 Requires Node.js 20 or later. No dependencies or API keys are needed.
@@ -18,7 +20,19 @@ npm test
 npm run build
 ```
 
-Deploy `dist/` to a static host. `.openai/hosting.json` records the associated private Sites deployment.
+## Free public hosting on GitHub Pages
+
+The public repository is <https://github.com/tchLin/travel-now>. GitHub Pages serves the built site from the root of the `gh-pages` branch. No OpenAI hosting, paid hosting plan, custom domain, backend, or API key is required.
+
+To publish an update after pushing your source changes to `main`:
+
+```sh
+npm run deploy
+```
+
+This checks, tests, and builds the app, then creates a temporary checkout and pushes `dist/` to `gh-pages`. It preserves the branch's history and never force-pushes. GitHub Pages must be configured once to deploy from `gh-pages` at `/`. The build includes `.nojekyll`. Authentication uses your existing Git SSH/HTTPS setup.
+
+The source repository and app are public. Each visitor's edited itinerary remains in their own browser until they download or share an export.
 
 ## Try it
 
@@ -46,7 +60,7 @@ Deploy `dist/` to a static host. `.openai/hosting.json` records the associated p
 - `app/export.js`: portable slide renderer, photo embedding, ZIP generation.
 - `app/styles.css`: responsive editor styles.
 - `app/assets/`: bundled starter photography and favicon.
-- `scripts/`: local server and static build.
+- `scripts/`: local server, static build, and GitHub Pages publishing.
 - `tests/`: validation, escaping/privacy, date, pagination, theme and ZIP tests.
 - `DESIGN_PLAN.md`: original product design and phased scope.
 
