@@ -45,6 +45,14 @@ export function datesBetween(start, end) {
 export function dateLabel(date, options = { month: 'short', day: 'numeric' }, language = 'en') {
   return new Intl.DateTimeFormat(language === 'en' ? 'en-US' : language, { ...options, timeZone: 'UTC' }).format(new Date(date + 'T12:00:00Z'));
 }
+// Activity times are wall-clock values in the trip timezone, not timestamps.
+export function timeLabel(value, language = 'en') {
+  if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(value || ''))return '';
+  const [hours,minutes]=value.split(':').map(Number);
+  return new Intl.DateTimeFormat(language==='en'?'en-US':language,{
+    timeZone:'UTC',minute:'2-digit',...(language==='en'?{hour:'numeric',hour12:true}:{hour:'2-digit',hourCycle:'h23'})
+  }).format(new Date(Date.UTC(2000,0,1,hours,minutes))).replace(/[\u202f\u00a0]/g,' ');
+}
 export { mapsUrl } from './places.js';
 export const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 export function safeUrl(value) {

@@ -137,3 +137,9 @@ The palette-only variation is replaced by six structural layout families, retain
 | Minimal itinerary | Bold title with a wide image strip | Separate date column and compact activity list |
 
 Picker miniatures reflect these compositions. All six stack appropriately on narrow screens, preserve empty/text-only days, and include notes, maps, hours, and optional costs. Regression tests check navigation, menu access, theme persistence and full preview, responsive rules at 320/390/430 pixels in all languages, and structurally distinct layouts. DOM/CSS checks do not replace real-device browser visual QA.
+
+## Preview dates and midnight defaults
+
+Use short month/day headings, with weekday and year on a separate line, to prevent narrow layout columns from breaking long dates into fragments. Cover date ranges display consistently localized full endpoints and avoid repeating single-day dates. Activity clocks use semantic time elements grouped into intact endpoints, with sufficient column width and controlled wrapping. English previews distinguish AM/PM; Simplified/Traditional Chinese use 24-hour clocks. Stored HH:MM values remain wall-clock times in the trip timezone.
+
+Initialize new activity start times to 00:00. Empty start/end pickers are seeded to 00:00 before touch/focus opens them; preserve existing chosen times. Keep end time optional and provide explicit Clear time actions, including clearing a dependent end when removing the start. Tests cover all six layouts in three languages at phone/desktop widths, midnight/noon, year boundaries, leap day, and edit/save/clear/reopen behavior.

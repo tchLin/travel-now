@@ -56,6 +56,8 @@ Slide pages fit their content, and six layout families change the composition: t
 
 On phones, the header exposes Export and More. More contains language, preview, cover, import, and new-trip controls. Sticky Itinerary / Themes & styles / Trip details tabs replace repeated navigation and decorative content. Days appear with the itinerary. Switching sections scrolls and focuses the requested panel; the Themes section keeps the selected theme and Preview control available.
 
+Preview dates use a short month/day heading with weekday and year on a separate line. Cover ranges label both endpoints consistently and keep each date together when wrapping. English previews use AM/PM; Chinese previews use a 24-hour clock. New activities start at midnight (12:00 AM / 00:00), and opening an empty time picker also starts at midnight. End time stays optional; **Clear time** removes a time, and clearing start time also removes its dependent end time. Existing saved times are preserved.
+
 ## Privacy and persistence
 
 - Changes autosave in this browser's localStorage. There is one current trip per origin; this is not cloud synchronization.
