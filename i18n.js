@@ -4,6 +4,7 @@ import { openingHoursMessages } from './opening-hours.js';
 export const languages = ['en', 'zh-CN', 'zh-TW'];
 // Canonical values remain English in JSON. Only interface labels are translated.
 const strings = {
+  'Clear time': ['清除时间','清除時間'],
   'Theme applied. Preview your slides to see it.': ['主题已应用，预览幻灯片即可查看效果。','主題已套用，預覽投影片即可查看效果。'],
   "Timeline journal": ["时间手帐", "時間手帳"],
   "Editorial spread": ["杂志专页", "雜誌專頁"],
